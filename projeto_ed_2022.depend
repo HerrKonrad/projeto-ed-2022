@@ -1,0 +1,61 @@
+# depslib dependency file v1.0
+1650541492 source:c:\users\fmorgado\desktop\template_proj_bdados_alunos\listagenerica.c
+	"ListaGenerica.h"
+
+1650541531 c:\users\fmorgado\desktop\template_proj_bdados_alunos\listagenerica.h
+	<stdio.h>
+	<stdlib.h>
+
+1650542973 source:c:\users\fmorgado\desktop\template_proj_bdados_alunos\main.c
+	<stdio.h>
+	<stdlib.h>
+	"BDadosCoupe.h"
+
+1650542678 source:c:\users\fmorgado\desktop\template_proj_bdados_alunos\bdadoscoupe.c
+	"BDadosCoupe.h"
+
+1650536683 c:\users\fmorgado\desktop\template_proj_bdados_alunos\bdadoscoupe.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"ListaGenerica.h"
+
+1651936466 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\bdadoscoupe.c
+	"BDadosCoupe.h"
+
+1651859629 c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\bdadoscoupe.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Tipos_Dados.h"
+
+1651769909 c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\listagenerica.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1651860190 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\listagenerica.c
+	"ListaGenerica.h"
+
+1651936511 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\main.c
+	<stdio.h>
+	<stdlib.h>
+	"BDadosCoupe.h"
+	"Tipos_Dados.h"
+
+1652120774 c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\tipos_dados.h
+	"ListaGenerica.h"
+	"Utils.h"
+
+1650466505 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\utils.c
+	"utils.h"
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+
+1650466708 c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\utils.h
+	<time.h>
+
+1651936494 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\tipos_dados.c
+	"Tipos_Dados.h"
+

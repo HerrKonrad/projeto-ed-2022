@@ -1,0 +1,114 @@
+AREA DE TESTES:  ----  6/5/2022 19:0:14
+FIM DOS TESTES:  ----  6/5/2022 19:0:14
+AREA DE TESTES:  ----  6/5/2022 19:1:21
+FIM DOS TESTES:  ----  6/5/2022 19:1:21
+AREA DE TESTES:  ----  6/5/2022 19:1:40
+FIM DOS TESTES:  ----  6/5/2022 19:1:40
+AREA DE TESTES:  ----  6/5/2022 19:3:11
+FIM DOS TESTES:  ----  6/5/2022 19:3:11
+AREA DE TESTES:  ----  6/5/2022 19:4:33
+FIM DOS TESTES:  ----  6/5/2022 19:4:33
+AREA DE TESTES:  ----  6/5/2022 19:22:39
+FIM DOS TESTES:  ----  6/5/2022 19:22:39
+AREA DE TESTES:  ----  6/5/2022 19:27:37
+FIM DOS TESTES:  ----  6/5/2022 19:27:37
+Campo destruido ----  6/5/2022 19:29:5
+Campo destruido ----  6/5/2022 19:29:5
+Campo destruido ----  6/5/2022 19:29:5
+Campo destruido ----  6/5/2022 19:29:5
+Tabela destruida ----  6/5/2022 19:29:5
+Campo destruido ----  6/5/2022 19:30:12
+Campo destruido ----  6/5/2022 19:30:12
+Campo destruido ----  6/5/2022 19:30:12
+Campo destruido ----  6/5/2022 19:30:12
+Tabela destruida ----  6/5/2022 19:30:12
+Campo destruido ----  6/5/2022 19:30:25
+Campo destruido ----  6/5/2022 19:30:25
+Campo destruido ----  6/5/2022 19:30:25
+Campo destruido ----  6/5/2022 19:30:25
+Tabela destruida ----  6/5/2022 19:30:25
+Campo destruido ----  6/5/2022 19:30:59
+Campo destruido ----  6/5/2022 19:30:59
+Campo destruido ----  6/5/2022 19:30:59
+Campo destruido ----  6/5/2022 19:30:59
+Tabela destruida ----  6/5/2022 19:30:59
+Campo destruido ----  6/5/2022 19:32:13
+Campo destruido ----  6/5/2022 19:32:13
+Campo destruido ----  6/5/2022 19:32:13
+Campo destruido ----  6/5/2022 19:32:13
+Tabela destruida ----  6/5/2022 19:32:13
+Campo destruido ----  6/5/2022 19:32:23
+Campo destruido ----  6/5/2022 19:32:23
+Campo destruido ----  6/5/2022 19:32:23
+Campo destruido ----  6/5/2022 19:32:23
+Tabela destruida ----  6/5/2022 19:32:23
+Campo destruido ----  6/5/2022 19:32:32
+Campo destruido ----  6/5/2022 19:32:32
+Campo destruido ----  6/5/2022 19:32:32
+Campo destruido ----  6/5/2022 19:32:32
+Tabela destruida ----  6/5/2022 19:32:32
+Campo destruido ----  6/5/2022 19:33:17
+Campo destruido ----  6/5/2022 19:33:17
+Campo destruido ----  6/5/2022 19:33:17
+Campo destruido ----  6/5/2022 19:33:17
+Tabela destruida ----  6/5/2022 19:33:17
+Campo destruido ----  6/5/2022 19:34:39
+Campo destruido ----  6/5/2022 19:34:39
+Campo destruido ----  6/5/2022 19:34:39
+Campo destruido ----  6/5/2022 19:34:39
+Tabela destruida ----  6/5/2022 19:34:39
+Campo destruido ----  6/5/2022 19:38:10
+Campo destruido ----  6/5/2022 19:38:10
+Campo destruido ----  6/5/2022 19:38:10
+Campo destruido ----  6/5/2022 19:38:10
+Tabela destruida ----  6/5/2022 19:38:10
+Campo destruido ----  7/5/2022 15:32:25
+Campo destruido ----  7/5/2022 15:32:25
+Campo destruido ----  7/5/2022 15:32:25
+Campo destruido ----  7/5/2022 15:32:25
+Tabela destruida ----  7/5/2022 15:32:25
+Campo destruido ----  7/5/2022 15:43:58
+Campo destruido ----  7/5/2022 15:43:58
+Campo destruido ----  7/5/2022 15:43:58
+Campo destruido ----  7/5/2022 15:43:58
+Tabela destruida ----  7/5/2022 15:43:58
+Campo destruido ----  7/5/2022 15:44:33
+Campo destruido ----  7/5/2022 15:44:33
+Campo destruido ----  7/5/2022 15:44:33
+Campo destruido ----  7/5/2022 15:44:33
+Tabela destruida ----  7/5/2022 15:44:33
+Campo destruido ----  7/5/2022 15:45:4
+Campo destruido ----  7/5/2022 15:45:4
+Campo destruido ----  7/5/2022 15:45:4
+Campo destruido ----  7/5/2022 15:45:4
+Tabela destruida ----  7/5/2022 15:45:4
+Campo destruido ----  7/5/2022 15:45:27
+Campo destruido ----  7/5/2022 15:45:27
+Campo destruido ----  7/5/2022 15:45:27
+Campo destruido ----  7/5/2022 15:45:27
+Tabela destruida ----  7/5/2022 15:45:27
+Campo destruido ----  7/5/2022 15:46:1
+Campo destruido ----  7/5/2022 15:46:1
+Campo destruido ----  7/5/2022 15:46:1
+Campo destruido ----  7/5/2022 15:46:1
+Tabela destruida ----  7/5/2022 15:46:1
+Campo destruido ----  7/5/2022 15:49:19
+Campo destruido ----  7/5/2022 15:49:19
+Campo destruido ----  7/5/2022 15:49:19
+Campo destruido ----  7/5/2022 15:49:19
+Tabela destruida ----  7/5/2022 15:49:19
+Campo destruido ----  7/5/2022 16:2:13
+Campo destruido ----  7/5/2022 16:2:13
+Campo destruido ----  7/5/2022 16:2:13
+Campo destruido ----  7/5/2022 16:2:13
+Tabela destruida ----  7/5/2022 16:2:13
+Campo destruido ----  7/5/2022 16:2:23
+Campo destruido ----  7/5/2022 16:2:23
+Campo destruido ----  7/5/2022 16:2:23
+Campo destruido ----  7/5/2022 16:2:23
+Tabela destruida ----  7/5/2022 16:2:23
+Campo destruido ----  9/5/2022 19:26:15
+Campo destruido ----  9/5/2022 19:26:15
+Campo destruido ----  9/5/2022 19:26:15
+Campo destruido ----  9/5/2022 19:26:15
+Tabela destruida ----  9/5/2022 19:26:15
