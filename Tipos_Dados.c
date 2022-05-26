@@ -12,14 +12,11 @@ void Mostrar_Campo(CAMPO * campo)
     printf ("Nome campo: %s, Tipo: %s ", campo->NOME_CAMPO, campo->TIPO );
 }
 
-
-
-
-
 void Mostrar_Campo_Simples(CAMPO * campo)
 {
      if(!campo) return;
-    printf ("%s/%s ", campo->NOME_CAMPO, campo->TIPO );
+
+    printf ("%10s(%4s)\t", campo->NOME_CAMPO, campo->TIPO );
 
 }
 
@@ -33,7 +30,6 @@ void Destruir_Campo(CAMPO *c)
 {
     if(!c) return;
     free(c);
-     debugTxt("Campo destruido", FICH_DEBUG);
 }
 
 /** \brief
@@ -45,6 +41,7 @@ void Destruir_Campo(CAMPO *c)
 void Destruir_Registo(REGISTO *r)
 {
     DestruirLG(r, Destruir_Dado);
+    free(r);
 }
 
 void Destruir_Dado(char* dado)
@@ -64,10 +61,13 @@ void Destruir_Tabela(TABELA *tab)
 
     if (!tab) return;
 
+
     DestruirLG(tab->LCampos, Destruir_Campo);
     DestruirLG(tab->LRegistos, Destruir_Registo);
+    tab->LCampos = NULL;
+    tab->LRegistos = NULL;
     free(tab);
-    debugTxt("Tabela destruida", FICH_DEBUG);
+
 }
 
 /** \brief
@@ -114,6 +114,36 @@ int Comparar_Campos(CAMPO *campo1, CAMPO *campo2)
     return  stricmp(campo1->NOME_CAMPO, campo2->NOME_CAMPO) == 0 ? SUCESSO : INSUCESSO;
 }
 
+
+int Compara_Dado(char * dado1, char * dado2)
+{
+    if(!dado1 || !dado2) return INSUCESSO;
+    return stricmp(dado1, dado2) == 0 ? SUCESSO : INSUCESSO;
+}
+
+
+
+int Compara_Registo(REGISTO * reg1, REGISTO * reg2)
+{
+
+    if(!reg1 || !reg2) return INSUCESSO;
+
+
+    int IGUAL = 1;
+
+     NOG * P2 = reg2->Inicio;
+
+     // comparemos com o dado do segundo registo, veremos se batem igual
+
+    while(P2 && IGUAL)
+    {
+        IGUAL = PesquisarElemento(reg1, P2->Info, Compara_Dado);
+        P2 = P2->Prox;
+    }
+
+    return IGUAL;
+}
+
 /** \brief Mostra cada dado de um REGISTO
  *
  * \param dado char*
@@ -122,7 +152,8 @@ int Comparar_Campos(CAMPO *campo1, CAMPO *campo2)
  */
 void Mostrar_Dado(char* dado)
 {
-    printf("\t<%s>", dado);
+    if(!dado) return;
+    printf("|%15s|\t", dado);
 }
 
 CAMPO *Pesquisar_Campo(TABELA *T, char *nome_campo)
@@ -156,11 +187,12 @@ CAMPO *Pesquisar_Campo(TABELA *T, char *nome_campo)
  */
 void Mostrar_Registo(REGISTO *r)
 {
+    if(!r) return;
     MostrarLG(r, Mostrar_Dado);
     printf("\n");
 }
 
-/** \brief AVISO: FECHA O FICHEIRO PELA AMOR DE DEUS.
+/** \brief AVISO: FECHA O FICHEIRO PELA AMOR DE DEUS
  *
  * \param campo CAMPO*
  * \param F FILE*
@@ -170,7 +202,7 @@ void Mostrar_Registo(REGISTO *r)
 void Gravar_Campo(CAMPO * campo, FILE *F)
 {
     if(!F) return;
-    fprintf(F, "%s;", campo->NOME_CAMPO, campo->TIPO);
+    fprintf(F, "%s(%s);", campo->NOME_CAMPO, campo->TIPO);
 }
 
 void Gravar_Dado(char * dado, FILE *F)
@@ -181,8 +213,43 @@ void Gravar_Dado(char * dado, FILE *F)
 
 void Gravar_Registo(REGISTO *r, FILE *F)
 {
-    GravarFicheiroTXTLG(r, Gravar_Dado, F);
+
+      GravarFicheiroTXTLG(r, Gravar_Dado, F);
       fprintf(F,"\n ");
+
+}
+
+int Gravar_Tabela_TXT(TABELA *T,FILE *F)
+{
+    if(!T) return INSUCESSO;
+
+    fprintf(F,"%s\n",T->NOME_TABELA);
+
+
+    GravarFicheiroTXTLG(T->LCampos,Gravar_Campo,F);
+    fprintf(F,"\n ");
+    GravarFicheiroTXTLG(T->LRegistos,Gravar_Registo,F);
+
+    return SUCESSO;
+}
+
+
+void Gravar_Dado_Binario(char * dado, FILE *F)
+{
+    if(!F) return;
+    int tam_dado =strlen(dado) + 1;
+    char *s_dado = (char*) malloc(sizeof(char) * tam_dado);
+    strcpy(s_dado, dado);
+    fwrite(&tam_dado, sizeof(int), 1, F);
+    fwrite(s_dado, sizeof(char), tam_dado, F);
+    free(s_dado);
+}
+
+void Gravar_Registo_Binario(REGISTO *r, FILE *F)
+{
+
+    GravarFicheiroBinarioLG(r,Gravar_Dado_Binario,F);
+
 }
 
 /** \brief Grava a informação de um campo, (nome e tipo) em binário
@@ -195,15 +262,15 @@ void Gravar_Registo(REGISTO *r, FILE *F)
 void Gravar_Campo_Binario(CAMPO * campo, FILE *F)
 {
     // Grava o nome do campo
-    char *s_nome = (char*) malloc(sizeof(char) * strlen(campo->NOME_CAMPO) + 1);
+    char *s_nome = (char*) malloc(sizeof(char) * strlen(campo->NOME_CAMPO));
     strcpy(s_nome, campo->NOME_CAMPO);
-    int N_nome = strlen(s_nome);
+    int N_nome = strlen(s_nome) + 1;
     fwrite(&N_nome, sizeof(int), 1, F);
     fwrite(s_nome, sizeof(char), N_nome, F);
     free(s_nome);
     // Grava o tipo do campo
 
-    char *s_tipo = (char*) malloc(sizeof(char) * strlen(campo->TIPO) + 1);
+    char *s_tipo = (char*) malloc(sizeof(char) * strlen(campo->TIPO));
     strcpy(s_tipo, campo->TIPO);
     int N_tipo = strlen(s_tipo);
     fwrite(&N_tipo, sizeof(int), 1, F);
@@ -211,23 +278,151 @@ void Gravar_Campo_Binario(CAMPO * campo, FILE *F)
     free(s_tipo);
 }
 
-int Gravar_Tabela_TXT(TABELA *T,FILE *F)
+int Gravar_Tabela_Binario(TABELA *T,FILE *F)
 {
     if(!T) return INSUCESSO;
 
-    fprintf(F,"%s",T->NOME_TABELA);
-    fprintf(F,"\n\tCAMPOS: ");
-    GravarFicheiroTXTLG(T->LCampos,Gravar_Campo,F);
-    fprintf(F,"\n ");
-    GravarFicheiroTXTLG(T->LRegistos,Gravar_Registo,F);
+    // fprintf(F,"%s",T->NOME_TABELA);
+
+    //fprintf(F,"\n\tCAMPOS: ");
+
+    GravarFicheiroBinarioLG(T->LCampos,Gravar_Campo_Binario,F);
+    //fprintf(F,"\n ");
+    GravarFicheiroBinarioLG(T->LRegistos,Gravar_Registo_Binario,F);
+
     return SUCESSO;
 }
 
+BDadosCoupe *Ler_Nome_Base_Dados(FILE *F)
+{
+    if(!F) return NULL;
+    char c;
+    int cont=0;
+    int cont1=0;
+    char *nome_bd=malloc (sizeof (char)*50);
+    char *versao_bd=malloc (sizeof (char)*50);
+
+    do
+    {
+        nome_bd[cont]=fgetc(F);
+        cont++;
+    }while (nome_bd[cont-1]!=',' && nome_bd[cont-1]!=';');
+
+    nome_bd[cont-1]='\0';
+
+    do
+    {
+        versao_bd[cont1]=fgetc(F);
+        cont1++;
+    }while (versao_bd[cont1-1]!='\n');
+
+    versao_bd[cont1-1]='\0';
+
+    nome_bd =realloc (nome_bd,sizeof (char)*cont);
+    versao_bd =realloc (versao_bd,sizeof (char)*cont1);
+
+    return Criar_BDados(nome_bd,versao_bd);
+}
+
+TABELA *Ler_Nome_Tabela(BDadosCoupe *BD,FILE *F)
+{
+    if(!F || !BD) return NULL;
+    int cont=0;
+
+    char nome_tabela[51];
 
 
-// gravar_registo
+    if (fgets(nome_tabela,51, F)) // tenta ler a linha, caso seja vazia não lê
+    {
 
-// gravar_campo
+        if (nome_tabela[0] != '\n')
+        {
+
+        nome_tabela[strlen(nome_tabela) - 1] = '\0';
+        return Criar_Tabela(BD, nome_tabela);
+        }
+        printf("ola...");
+
+    }
+
+
+    return NULL;
+}
+
+
+void  Ler_Campo_Tabela(FILE *F, TABELA *T)
+{
+    if(!F || !T) return NULL;
+    int count=0;
+    int count1=0;
+    int SAIR = 0;
+
+    do
+    {
+    char *nome_campo = malloc (sizeof (char)*50);
+    char *nome_tipo = malloc (sizeof (char)*50);
+       do
+       {
+           nome_campo[count]=fgetc(F);
+
+           if(nome_campo[count] == '(')
+            {
+                do
+                {
+                    nome_tipo[count1]=fgetc(F);
+                    count1++;
+                }while( nome_tipo[count1-1] != ')');
+            }
+            count++;
+
+       }while(nome_campo[count-1] != ';' && nome_campo[count - 1] != '\n');
+       if((nome_campo[count-1] == '\n') || (nome_campo[count] == '\n'))
+       {
+           SAIR = 1; return;
+        }
+            if(count1 < 1) // caso não leia um tipo, define por padão como string
+            {
+                strcpy(nome_tipo, "STRING");
+                count1 = strlen(nome_tipo) + 1;
+            }
+        nome_campo[count-2]='\0';
+        nome_tipo[count1-1]='\0';
+       nome_campo=realloc (nome_campo,sizeof (char)*count);
+        nome_tipo=realloc (nome_tipo,sizeof (char)*count1);
+       CAMPO * C = Criar_Campo(nome_campo, nome_tipo);
+
+       count=0;
+       count1=0;
+       AddFimLG(T->LCampos, C);
+
+
+    }while(!SAIR);
+}
+
+void  Ler_Valores_Tabela(FILE *F, TABELA *T)
+{
+    if(!F || !T) return NULL;
+    int count=0;
+    int coluna = 0;
+    int SAIR = 0;
+    char c;
+
+     char registo[1024];
+
+
+
+    while (fgets(registo,1024, F))
+    {
+        if(strlen(registo) > 2)
+        {
+        Add_Valores_Tabela(T, registo);
+        }
+        else
+        {
+        break;
+        }
+    }
+}
 
 
 

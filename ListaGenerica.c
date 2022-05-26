@@ -11,9 +11,10 @@ ListaGenerica *CriarLG()
     ListaGenerica *L = (ListaGenerica *)malloc(sizeof(ListaGenerica));
     L->Inicio = NULL;
     L->NEL = 0;
+    L->Fim = NULL;
     return L;
 }
-/** \brief
+/** \brief Elimina uma lista genérica, removendo a lista e todos elementos da memória
  *
  * \param  void*
  * \return void DestuirLG(ListaGenerica *L, void
@@ -48,6 +49,10 @@ int AddLG(ListaGenerica *L, void *X)
     nozito->Prox = L->Inicio;
     L->Inicio = nozito;
     L->NEL++;
+    if(!nozito->Prox) // caso seja o unico elemento, será o ultimo
+    {
+        L->Fim = nozito;
+    }
     return SUCESSO;
 }
 
@@ -68,13 +73,10 @@ int AddFimLG(ListaGenerica *L, void *X)
         L->Inicio = Novo;
     else
     {
-        NOG *X = L->Inicio;
-        while (X->Prox)
-        {
-            X = X->Prox;
-        }
-        X->Prox = Novo;
+        NOG *Y = L->Fim;
+        Y->Prox = Novo;
     }
+    L->Fim = Novo;
     L->NEL++;
     // Caso a lista esteja vazia
     return SUCESSO;
@@ -109,7 +111,7 @@ void MostrarInversoLG(ListaGenerica *L, void (*func_mostrar)(void *))
 }
 
 
-/** \brief
+/** \brief Remove o primeiro elemento de uma lista genérica
  *
  * \param L ListaGenerica*
  * \param (*func_remover void
@@ -126,23 +128,33 @@ void RemoverPrimeiroLG(ListaGenerica *L, void (*func_remover) (void*))
         func_remover(primeiro->Info);
         free(primeiro);
         L->Inicio = NULL;
+        L->Fim = NULL;
     }
     else
     {
         L->Inicio = primeiro->Prox;
         func_remover(primeiro->Info);
         free(primeiro);
+        // caso só sobre um elemento
+        if(!L->Inicio->Prox)
+        {
+            L->Fim = L->Inicio;
+        }
     }
+
+
     L->NEL--;
 }
 // TODO: ARRUMAR ESSA FUNÇÃO
-/** \brief
+ // TODO: OTIMIZAR PARA USAR O PONTEIRO DO FIM DA LISTA
+/** \brief Remove o último elemento de uma lista genérica
  *
  * \param L ListaGenerica*
  * \param (*func_remover void
  * \return void
  *
  */
+
 void RemoverUltimoLG(ListaGenerica *L, void (*func_remover) (void*))
 {
     if (!L) return;
@@ -165,8 +177,9 @@ void RemoverUltimoLG(ListaGenerica *L, void (*func_remover) (void*))
 
         // TODO: AJUSTAR
         // ATENÇÃO: ERRO AQUI!!!!!
-        // func_remover(proximo->Info);
+         func_remover(proximo->Info);
         free(proximo);
+        L->Fim = P;
     }
     else
     {
@@ -174,6 +187,7 @@ void RemoverUltimoLG(ListaGenerica *L, void (*func_remover) (void*))
         func_remover(P->Info);
         free(P);
         L->Inicio = NULL;
+        L->Fim = NULL;
     }
 
     L->NEL--;
@@ -199,7 +213,6 @@ void RemoverElementoLG(ListaGenerica *L, void * ele_remover, void (*func_remover
     {
         if(func_comparar(P->Info, ele_remover))
         {
-            debugTxt("Encontrei elemento", FICH_DEBUG);
             STOP = 1;
         }
         else
@@ -230,11 +243,9 @@ void RemoverElementoLG(ListaGenerica *L, void * ele_remover, void (*func_remover
             free(P);
         }
         L->NEL--;
-        debugTxt("Elemento encotrado e excluido", FICH_DEBUG);
     }
     else
     {
-        debugTxt("Elemento nao encontrado :-(", FICH_DEBUG);
     }
 }
 
@@ -251,12 +262,10 @@ NOG * PesquisarElemento(ListaGenerica *L, void * Info, int (*func_comparar) (voi
 {
     if(!L)
     {
-        debugTxt("Nao existe lista", FICH_DEBUG);
         return NULL;
     }
     if(!Info)
     {
-        debugTxt("informacao inexistente", FICH_DEBUG);
         return NULL;
     }
 
@@ -283,6 +292,63 @@ NOG * PesquisarElemento(ListaGenerica *L, void * Info, int (*func_comparar) (voi
     }
 }
 
+/** \brief Retorna a posição que um elemento se encontra numa lista, atenção, contagem inicia do 0, e -1 caso elemento não exista
+ *
+ * \param L ListaGenerica*
+ * \param Info void*
+ * \param (*func_comparar int
+ * \return int : Posicao do elemento a partir do 0, retorna -1 caso elemento não exista
+ *
+ */
+int ObterPosicaoElementoLG(ListaGenerica *L, void * Info, int (*func_comparar) (void*, void*))
+{
+    if(!L || !Info) return -1;
+
+    int posicao = 0;
+    NOG * elemLista = L->Inicio;
+    int ENCONTRADO = INSUCESSO;
+
+    while(elemLista && !ENCONTRADO)
+    {
+        posicao ++;
+        if(func_comparar(elemLista->Info, Info))
+        {
+            ENCONTRADO = SUCESSO;
+            break;
+        }
+
+        elemLista = elemLista->Prox;
+    }
+
+    if(ENCONTRADO)
+    {
+        return posicao;
+    }
+    else
+    {
+        return -1;
+    }
+}
+
+/** \brief Dada uma posição na lista, obtem se existir o elemento da posição
+ *
+ * \param L ListaGenerica*
+ * \param posicao int
+ * \return NOG* : Um nó da lista genérica, caso precise usar o elemento, nao esquecer do ->Info
+ *
+ */
+NOG * ObterElementoDaPosicao(ListaGenerica *L, int posicao)
+{
+    if(!L || posicao < 0) return NULL;
+    // não faz sentido buscar um elemento numa posicao que nem está na lista
+    if(ObterTamanhoLG(L) < posicao) return NULL;
+    // vamos direto a posicao do elemento
+    NOG * elemLista = L->Inicio;
+    int i;
+    for( i = 1 ; i < posicao ; i++) elemLista = elemLista->Prox;
+    return elemLista;
+}
+
 /** \brief Obtem o tamanho da lista, caso não exista retorna -1
  *
  * \param L ListaGenerica*
@@ -295,7 +361,7 @@ long ObterTamanhoLG(ListaGenerica *L)
 }
 
 /** \brief Grava toda a informação de uma lista genérica em um ficheiro, é preciso que o ficheiro já existe e esteja aberto
- *  ATENÇÃO: ESTA FUNÇÃO NÃO FECHA O FICHEIRO, SERÁ NECESSÁRIO FECHAR DEPOIS
+ *  c
  *
  * \param L ListaGenerica*
  * \param nome_fich char*
@@ -305,44 +371,49 @@ long ObterTamanhoLG(ListaGenerica *L)
 int GravarFicheiroTXTLG(ListaGenerica *L, void (*func_gravar) (void*, FILE*), FILE * F)
 {
     if (!L || !L->Inicio || !F) return INSUCESSO;
+    // FILE *F = fopen(nome_fich, "a");
     if(!F) return INSUCESSO;
     NOG *P = L->Inicio;
     while (P)
     {
+
         func_gravar(P->Info, F);
+
         P = P->Prox;
     }
+    // fclose(F);
     return SUCESSO;
 }
 
 /** \brief Grava toda uma lista genérica em um ficheiro binário
- *
+ *       ATENÇÃO: ESTA FUNÇÃO NÃO FECHA O FICHEIRO, SERÁ NECESSÁRIO FECHAR DEPOIS
  * \param L ListaGenerica*
  * \param (*func_gravar_binario void : Uma função que grava um tipo de dados num ficheiro binário
- * \return int
+ * \return int: SUCESSO/INSUCESSO
  *
  */
 int GravarFicheiroBinarioLG(ListaGenerica *L, void (*func_gravar_binario) (void*, FILE*), FILE * F)
 {
     if (!L)  return INSUCESSO;
     if (!F) return INSUCESSO;
-    //FILE *F = fopen(ficheiro, "wb");
     fwrite(&(L->NEL), sizeof(int), 1, F);
+   // printf("Nelementos- %d",L->NEL);
     NOG *P = L->Inicio;
 
     while (P)
     {
         func_gravar_binario(P->Info, F);
-        /*
-        char *s = (char *)P->Info;
-        int N = strlen(s);
-        fwrite(&N, sizeof(int), 1, F);
-        fwrite(s, sizeof(char), N, F);
-        */
         P = P->Prox;
 
     }
     return SUCESSO;
 }
 
+long int CalcularTamanhoMemoriaLG(ListaGenerica *L)
+{
+    if(!L) return 0;
+
+
+    return sizeof(L) + sizeof(L->Inicio) * L->NEL; // o tamanho de um nó multiplicado pela quantidade de elementos
+}
 

@@ -7,6 +7,8 @@
 
 #include "Tipos_Dados.h"
 
+#define FICH_ESTATISTICAS "estatisticas.csv"
+
 
 //A) Criar a Base de dados;
 BDadosCoupe *Criar_BDados(char *nome_bd, char *versao);
@@ -57,5 +59,5 @@ int GravarFicheiroRegisto(REGISTO *L, char * nome_fich);
 
 int Mostrar_BDados_toda(BDadosCoupe *BD);
 
-int Exportar_BDados_Ficheiro_Texto(BDadosCoupe *BD, char *fich_dat);
+int Exportar_BDados_Ficheiro_Texto(BDadosCoupe *BD, char *fich_text);
 #endif // BDADOSCOUPE_H_INCLUDED

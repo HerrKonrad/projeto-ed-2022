@@ -42,12 +42,14 @@
 		<Unit filename="Tipos_Dados.c">
 			<Option compilerVar="CC" />
 		</Unit>
-		<Unit filename="Tipos_Dados.h">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
+		<Unit filename="Tipos_Dados.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />
 		</Unit>
+		<Unit filename="menus.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="menus.h" />
 		<Unit filename="utils.c">
 			<Option compilerVar="CC" />
 		</Unit>

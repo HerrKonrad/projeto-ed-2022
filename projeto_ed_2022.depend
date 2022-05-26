@@ -20,42 +20,167 @@
 	<string.h>
 	"ListaGenerica.h"
 
-1651936466 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\bdadoscoupe.c
+1653584252 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\bdadoscoupe.c
 	"BDadosCoupe.h"
 
-1651859629 c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\bdadoscoupe.h
+1652712875 c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\bdadoscoupe.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"Tipos_Dados.h"
 
-1651769909 c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\listagenerica.h
+1653003182 c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\listagenerica.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
+	<time.h>
 
-1651860190 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\listagenerica.c
+1653492039 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\listagenerica.c
 	"ListaGenerica.h"
 
-1651936511 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\main.c
+1653584632 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\main.c
 	<stdio.h>
 	<stdlib.h>
 	"BDadosCoupe.h"
 	"Tipos_Dados.h"
 
-1652120774 c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\tipos_dados.h
+1653344402 c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\tipos_dados.h
 	"ListaGenerica.h"
 	"Utils.h"
 
-1650466505 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\utils.c
+1653492934 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\utils.c
 	"utils.h"
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
 
-1650466708 c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\utils.h
+1653492816 c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\utils.h
 	<time.h>
 
-1651936494 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\tipos_dados.c
+1653497172 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\tipos_dados.c
 	"Tipos_Dados.h"
+
+1651872616 source:c:\users\leand\desktop\projeto_ed_2022\bdadoscoupe.c
+	"BDadosCoupe.h"
+
+1651872579 c:\users\leand\desktop\projeto_ed_2022\bdadoscoupe.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Tipos_Dados.h"
+
+1651859851 c:\users\leand\desktop\projeto_ed_2022\tipos_dados.h
+	"ListaGenerica.h"
+	"Utils.h"
+
+1651769909 c:\users\leand\desktop\projeto_ed_2022\listagenerica.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1650466708 c:\users\leand\desktop\projeto_ed_2022\utils.h
+	<time.h>
+
+1651860190 source:c:\users\leand\desktop\projeto_ed_2022\listagenerica.c
+	"ListaGenerica.h"
+
+1651872429 source:c:\users\leand\desktop\projeto_ed_2022\main.c
+	<stdio.h>
+	<stdlib.h>
+	"BDadosCoupe.h"
+	"Tipos_Dados.h"
+
+1651860272 source:c:\users\leand\desktop\projeto_ed_2022\tipos_dados.c
+	"Tipos_Dados.h"
+
+1650466505 source:c:\users\leand\desktop\projeto_ed_2022\utils.c
+	"utils.h"
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+
+1652280296 source:c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed_2022\bdadoscoupe.c
+	"BDadosCoupe.h"
+
+1652047928 c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed_2022\bdadoscoupe.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Tipos_Dados.h"
+
+1652279829 c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed_2022\tipos_dados.h
+	"ListaGenerica.h"
+	"Utils.h"
+
+1652047928 c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed_2022\listagenerica.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1652047929 c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed_2022\utils.h
+	<time.h>
+
+1652280505 source:c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed_2022\listagenerica.c
+	"ListaGenerica.h"
+
+1652280638 source:c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed_2022\main.c
+	<stdio.h>
+	<stdlib.h>
+	"BDadosCoupe.h"
+	"Tipos_Dados.h"
+
+1652280375 source:c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed_2022\tipos_dados.c
+	"Tipos_Dados.h"
+
+1652047928 source:c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed_2022\utils.c
+	"utils.h"
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+
+1652304665 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022_v2\bdadoscoupe.c
+	"BDadosCoupe.h"
+
+1652047930 c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022_v2\bdadoscoupe.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Tipos_Dados.h"
+
+1652304965 c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022_v2\tipos_dados.h
+	"ListaGenerica.h"
+	"Utils.h"
+
+1652301459 c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022_v2\listagenerica.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+
+1652047930 c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022_v2\utils.h
+	<time.h>
+
+1652304322 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022_v2\listagenerica.c
+	"ListaGenerica.h"
+
+1652305113 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022_v2\main.c
+	<stdio.h>
+	<stdlib.h>
+	"BDadosCoupe.h"
+	"Tipos_Dados.h"
+
+1652302721 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022_v2\tipos_dados.c
+	"Tipos_Dados.h"
+
+1652304973 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022_v2\utils.c
+	"utils.h"
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+
+1653493410 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\menus.c
+	"BDadosCoupe.h"
+	"menus.h"
+
+1653492807 c:\users\herrk\documents\programação\c\projetos\projeto_ed_2022\menus.h
+	"BDadosCoupe.h"
 

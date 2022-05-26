@@ -1,10 +1,10 @@
-/** PROJETO ESTRUTURA DE DADOS 2022/20
+/** PROJETO ESTRUTURA DE DADOS 2022
  * Base De Dados Coupe
  * ESCOLA SUPERIOR DE TECNOLOGIA E GESTÃO DE VISEU
- * NOMES:
- *
- *
- *
+ * NOMES: Arthur Konrad - 22062
+ *        Leandro Dias - 23028
+ *        Jesus Betancourt -
+ *        Gonçalo Abreu -
  */
 
 
@@ -16,93 +16,92 @@
 #include "Tipos_Dados.h"
 
 
+
+
+extern int contemPalavra(char * str, char * substr);
+
+
 void geradorRegistos(size_t n)
 {
 
-    BDadosCoupe *BD = Criar_BDados("XPTO", "Versao 1.0");
+
+    BDadosCoupe *BD = Criar_BDados("XPTO", "Versao1");
 
     TABELA *T = Criar_Tabela(BD, "XPTO");
-     Add_Campo_Tabela(T, "ID", "INT");
-     Add_Campo_Tabela(T, "NOME", "STRING");
-     Add_Campo_Tabela(T, "E-MAIL", "STRING");
-     Add_Campo_Tabela(T, "TELEMOVEL", "STRING");
+    TABELA *T2 = Criar_Tabela(BD, "XPTO2");
 
-     char registo[1200];
-     int i;
-     for ( i = 0 ; i < n ; i++)
-     {
-         sprintf(registo, "%d;xpto%d;xpto%d@outlook.com;%d-%d", i, i, i, aleatorio(50, 100), aleatorio(50, 100));
-         Add_Valores_Tabela(T, registo);
 
-     }
-            puts("terminado");
-            Exportar_Tabela_BDados_Excel(BD, T, "excel.csv");
-       // Exportar_BDados_Ficheiro_Texto(BD, "basedadosxpto.txt");
-     Destruir_BDados(BD);
-     sleep(20000);
+    Add_Campo_Tabela(T, "ID", "INT");
+    Add_Campo_Tabela(T, "NOME", "STRING");
+    Add_Campo_Tabela(T, "E-MAIL", "STRING");
+    Add_Campo_Tabela(T, "TELEMOVEL", "STRING");
+
+    Add_Campo_Tabela(T2, "ID", "INT");
+    Add_Campo_Tabela(T2, "NOME", "STRING");
+
+
+    char registo[1200];
+    char registo2[1200];
+    int i;
+    for ( i = 0 ; i < n ; i++)
+    {
+        sprintf(registo, "%d;xpto%d;xpto%d@outlook.com;%d-%d", i, i, i, aleatorio(50, 100), aleatorio(50, 100));
+        Add_Valores_Tabela(T, registo);
+        sprintf(registo2, "%d;nome%d", i, i);
+        Add_Valores_Tabela(T2, registo2);
+
+    }
+
+    //DELETE(BD, "XPTO", contemPalavra, "NOME", "3");
+
+    // UPDATE(BD, "XPTO", contemPalavra, "ID", "1", "NOME", "MUDEI");
+    // DELETE(BD, "XPTO", contemPalavra, "NOME", "xpto");
+    // SELECT(BD, "XPTO", Condicao_Todos, "NOME", "1");
+
+
+
+
+
+    // Mostrar_Todos_Registos(T);
+
+    Exportar_BDados_Excel(BD, "toda.csv");
+    Destruir_BDados(BD);
+
 
 }
 
-void testeMemoria(size_t n)
-{
 
-    BDadosCoupe *BD = Criar_BDados("BD-Banco", "Versao 1.0");
 
-    TABELA *T = Criar_Tabela(BD, "CLIENTES");
-     Add_Campo_Tabela(T, "ID", "INT");
 
-     int i;
-     for ( i = 0 ;  i < n ; i++ )
-     {
-     // char * string =  Obter_String_Campo(T->LCampos->Inicio->Info);
-     // puts(string);
-     }
-
-}
 
 void testes()
 {
     debugTxt("AREA DE TESTES: ", FICH_DEBUG);
 
-    BDadosCoupe *BD = Criar_BDados("BD-Coupe", "Versao 1.0");
-
-    TABELA *T = Criar_Tabela(BD, "CLIENTES");
-    TABELA *T2 = Criar_Tabela(BD, "PRODUTOS");
-    TABELA *T3 = Criar_Tabela(BD, "LOGIN");
-
-  //RemoverElementoLG(BD->LTabelas, T1, Destruir_Tabela, Comparar_Tabelas );
-   // RemoverUltimoLG(BD->LTabelas, Destruir_Tabela);
 
 
+    BDadosCoupe *BD = Criar_BDados("bdteste", "1");
 
-    Add_Campo_Tabela(T, "ID", "INT");
-    Add_Campo_Tabela(T, "NOME", "STRING");
-    Add_Campo_Tabela(T, "Telemovel", "STRING");
-    Add_Valores_Tabela(T, "23;Joao;666-655");
-    Add_Valores_Tabela(T, "24;Maria;132-444");
-    Add_Valores_Tabela(T, "25;Pedro;1323-2322");
+    Importar_BDados_Excel(BD, "toda_bd.csv");
 
-    Add_Campo_Tabela(T2, "id", "INT");
-    Add_Campo_Tabela(T2, "nome", "STRING");
 
-    Add_Valores_Tabela(T2, "23;Pera");
-    Add_Valores_Tabela(T2, "24;Laranja");
-    Add_Valores_Tabela(T2, "25;Morango");
+    DELETE(BD, "XPTO", contemPalavra, "NOME", "0");
+    UPDATE(BD, "XPTO", contemPalavra, "NOME", "2", "E-MAIL", "mudei@gmail.com");
+
+   SELECT(BD, "XPTO", contemPalavra, "NOME", "2");
+
+   //Mostrar_BDados_toda(BD);
+
+
+    //int att = UPDATE(BD, "VEICULO", contemPalavra, "TIPO_VEICULO", "bikes", "NUMERO", "123");
 
 
 
-
-   Exportar_BDados_Ficheiro_Texto(BD, "base_dados.txt");
-   Exportar_BDados_Excel(BD, "excel.csv");
+    //Exportar_Tabela_BDados_Excel(BD, "VEICULO", "veiculo_sem_truck.csv");
 
 
 
-
-  //  Add_Valores_Tabela_BDados(BD, "CLIENTES", "23;Joao");
-
-      Mostrar_BDados_toda(BD);
-
-   // Destruir_BDados(BD);
+    Destruir_BDados(BD);
 
 
     debugTxt("FIM DOS TESTES: ", FICH_DEBUG);
@@ -118,9 +117,10 @@ As tabelas podem ter relacionamentos entre elas
 */
 int main()
 {
-    geradorRegistos(10);
-  // testeMemoria(99999999);
-   // testes();
+  //  geradorRegistos(99999);
+
+
+    testes();
 
     return 0;
 }

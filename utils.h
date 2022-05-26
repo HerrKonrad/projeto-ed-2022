@@ -10,7 +10,7 @@ typedef struct
 
 int aleatorio(int min, int max);
 
-void lerString(char * texto, char * string);
+int lerString(char * texto, char * string);
 
 int lerInteiro(char * texto);
 
@@ -27,3 +27,8 @@ void calcularTempoExe();
 void teclaParaContinuar();
 
 void limparTeclado();
+
+static char *util_cat(char *dest, char *end, const char *str);
+
+int juntarStrings(char *dado1, char *dado2, char *junto, char *separador);
+
