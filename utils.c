@@ -10,14 +10,13 @@ int aleatorio(int min, int max)
    return min + rand() % (max + 1);
 }
 
-int lerString(char * texto, char * string)
+void lerString(char * texto, char * string)
 {
    if(!string) return;
    if(!texto) return;
 
    printf(" %s \n", texto);
    scanf("%s", string);
-   return string;
 }
 
 int lerInteiro(char * texto)
@@ -89,14 +88,6 @@ void teclaParaContinuar()
     while ( getchar() != '\n' );
     char ch;
     scanf("%c",&ch);
-}
-int juntarStrings(char *dado1, char *dado2, char *junto, char *separador){
-
-
-    strcpy(junto, dado1);
-    strcat(junto, separador);
-    strcat(junto, dado2);
-    return junto;
 }
 
 int contemPalavra(char * str, char * substr)

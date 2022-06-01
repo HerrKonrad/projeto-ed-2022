@@ -146,7 +146,7 @@ void RemoverPrimeiroLG(ListaGenerica *L, void (*func_remover) (void*))
     L->NEL--;
 }
 // TODO: ARRUMAR ESSA FUNÇÃO
- // TODO: OTIMIZAR PARA USAR O PONTEIRO DO FIM DA LISTA
+// TODO: OTIMIZAR PARA USAR O PONTEIRO DO FIM DA LISTA
 /** \brief Remove o último elemento de uma lista genérica
  *
  * \param L ListaGenerica*
@@ -177,7 +177,7 @@ void RemoverUltimoLG(ListaGenerica *L, void (*func_remover) (void*))
 
         // TODO: AJUSTAR
         // ATENÇÃO: ERRO AQUI!!!!!
-         func_remover(proximo->Info);
+        func_remover(proximo->Info);
         free(proximo);
         L->Fim = P;
     }
@@ -396,8 +396,7 @@ int GravarFicheiroBinarioLG(ListaGenerica *L, void (*func_gravar_binario) (void*
 {
     if (!L)  return INSUCESSO;
     if (!F) return INSUCESSO;
-    fwrite(&(L->NEL), sizeof(int), 1, F);
-   // printf("Nelementos- %d",L->NEL);
+
     NOG *P = L->Inicio;
 
     while (P)
@@ -409,11 +408,33 @@ int GravarFicheiroBinarioLG(ListaGenerica *L, void (*func_gravar_binario) (void*
     return SUCESSO;
 }
 
-long int CalcularTamanhoMemoriaLG(ListaGenerica *L)
+int LerFicheiroBinarioLG(ListaGenerica *L, void (*func_gravar_binario) (void*, FILE*), FILE * F)
 {
-    if(!L) return 0;
+    if (!L)  return INSUCESSO;
+    if (!F) return INSUCESSO;
+    fread(&(L->NEL), sizeof(int), 1, F);
+    NOG *P = L->Inicio;
 
+    while (P)
+    {
+        func_gravar_binario(P->Info, F);
+        P = P->Prox;
 
-    return sizeof(L) + sizeof(L->Inicio) * L->NEL; // o tamanho de um nó multiplicado pela quantidade de elementos
+    }
+    return SUCESSO;
+}
+
+long int CalcularTamanhoMemoriaLG(ListaGenerica *L, long (func_obter_tamanho) (void * dado))
+{
+    if (!L || !L->Inicio) return;
+    long tamanho = 0;
+    NOG *P = L->Inicio;
+    while (P)
+    {
+        tamanho += func_obter_tamanho(P->Info);
+        P = P->Prox;
+    }
+
+    return tamanho;
 }
 

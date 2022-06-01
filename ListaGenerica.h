@@ -41,6 +41,7 @@ long ObterTamanhoLG(ListaGenerica *L);
 int GravarFicheiroTXTLG(ListaGenerica *L, void (*func_gravar) (void*, FILE*), FILE * F);
 int GravarFicheiroBinarioLG(ListaGenerica *L, void (*func_gravar_binario) (void*, FILE*), FILE * F);
 
+long int CalcularTamanhoMemoriaLG(ListaGenerica *L, long (func_obter_tamanho) (void * dado));
 
 
 

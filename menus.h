@@ -9,6 +9,8 @@ void menuCriar_BDados();
 void menuCriar_Tabela();
 void menuAdd_Campo_Tabela();
 void menuAdd_Valores_Tabela();
+void menuPesquisar_Tabela();
+int menuPrincipal();
 
 
 

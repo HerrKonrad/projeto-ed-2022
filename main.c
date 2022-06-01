@@ -7,16 +7,13 @@
  *        Gonçalo Abreu -
  */
 
-
-
 #include <stdio.h>
 #include <stdlib.h>
 
 #include "BDadosCoupe.h"
 #include "Tipos_Dados.h"
-
-
-
+#define ficheiro_binario "BD.dat"
+#define ficheiro_excel "BD.csv"
 
 extern int contemPalavra(char * str, char * substr);
 
@@ -28,7 +25,7 @@ void geradorRegistos(size_t n)
     BDadosCoupe *BD = Criar_BDados("XPTO", "Versao1");
 
     TABELA *T = Criar_Tabela(BD, "XPTO");
-    TABELA *T2 = Criar_Tabela(BD, "XPTO2");
+    TABELA *T2 = Criar_Tabela(BD, "PINGO");
 
 
     Add_Campo_Tabela(T, "ID", "INT");
@@ -45,67 +42,41 @@ void geradorRegistos(size_t n)
     int i;
     for ( i = 0 ; i < n ; i++)
     {
+
         sprintf(registo, "%d;xpto%d;xpto%d@outlook.com;%d-%d", i, i, i, aleatorio(50, 100), aleatorio(50, 100));
         Add_Valores_Tabela(T, registo);
         sprintf(registo2, "%d;nome%d", i, i);
         Add_Valores_Tabela(T2, registo2);
-
     }
 
-    //DELETE(BD, "XPTO", contemPalavra, "NOME", "3");
 
-    // UPDATE(BD, "XPTO", contemPalavra, "ID", "1", "NOME", "MUDEI");
-    // DELETE(BD, "XPTO", contemPalavra, "NOME", "xpto");
-    // SELECT(BD, "XPTO", Condicao_Todos, "NOME", "1");
-
-
-
-
-
-    // Mostrar_Todos_Registos(T);
-
-    Exportar_BDados_Excel(BD, "toda.csv");
+    Exportar_BDados_Ficheiro_Binario(BD,ficheiro_binario);
+    Exportar_BDados_Excel(BD, ficheiro_excel);
     Destruir_BDados(BD);
-
-
 }
-
-
-
-
 
 void testes()
 {
-    debugTxt("AREA DE TESTES: ", FICH_DEBUG);
+    BDadosCoupe *BD=Ler_nome_versao_BD_bin(ficheiro_binario);
+    Importar_BDados_Ficheiro_Binario(BD,ficheiro_binario);
 
 
 
-    BDadosCoupe *BD = Criar_BDados("bdteste", "1");
+    Mostrar_BDados(BD);
+    printf("\n");
 
-    Importar_BDados_Excel(BD, "toda_bd.csv");
+  // Importar_BDados_Excel(BD, "excel_arrumado.csv" );
 
+   // Exportar_BDados_Excel(BD, "excel_arrumado.csv");
 
-    DELETE(BD, "XPTO", contemPalavra, "NOME", "0");
-    UPDATE(BD, "XPTO", contemPalavra, "NOME", "2", "E-MAIL", "mudei@gmail.com");
+   // SELECT(BD, "XPTO", contemPalavra, "NOME", "999999");
+   printf("\n tamanho BD: %ld bytes", Memoria_BDados(BD));
+   printf("\n tamanho despedicado BD: %ld bytes", Memoria_Desperdicada_BDados(BD));
+    Mostrar_BDados_toda(BD);
 
-   SELECT(BD, "XPTO", contemPalavra, "NOME", "2");
-
-   //Mostrar_BDados_toda(BD);
-
-
-    //int att = UPDATE(BD, "VEICULO", contemPalavra, "TIPO_VEICULO", "bikes", "NUMERO", "123");
-
-
-
-    //Exportar_Tabela_BDados_Excel(BD, "VEICULO", "veiculo_sem_truck.csv");
-
-
+   // SELECT(BD, "XPTO", contemPalavra, "NOME", "9");
 
     Destruir_BDados(BD);
-
-
-    debugTxt("FIM DOS TESTES: ", FICH_DEBUG);
-
 }
 /*
 Uma Base de dados Relacional é formada por tabelas,
@@ -117,10 +88,10 @@ As tabelas podem ter relacionamentos entre elas
 */
 int main()
 {
-  //  geradorRegistos(99999);
-
-
+    geradorRegistos(500);
     testes();
+
+
 
     return 0;
 }

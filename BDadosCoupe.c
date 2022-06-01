@@ -18,7 +18,7 @@ BDadosCoupe *Criar_BDados(char *nome_bd, char *versao)
     exe = clock() - exe;
     double tempo = ((double)exe)/CLOCKS_PER_SEC;
     FILE *f1 = fopen("estatisticas.csv", "a");
-    fprintf(f1,"%s;%f\n",__func__,tempo);
+    fprintf(f1,"%s;%.3f\n",__func__,tempo);
     fclose(f1);
     return BD;
 }
@@ -73,6 +73,7 @@ int Add_Campo_Tabela(TABELA *T, char *nome_campo, char *tipo_campo)
  * \return int        : SUCESSO/INSUCESSO
  *
  */
+
 int Add_Valores_Tabela(TABELA *T, char *dados)
 {
     if(!T) return INSUCESSO;
@@ -98,8 +99,7 @@ int Add_Valores_Tabela(TABELA *T, char *dados)
     }
     AddFimLG(T->LRegistos, reg);
     free(str);
-
-    //MostrarLG(T->LRegistos,Mostrar_Dado);
+    free(token);
     return SUCESSO;
 }
 
@@ -132,7 +132,7 @@ TABELA *Pesquisar_Tabela(BDadosCoupe *BD, char *nome_tabela)
     exe = clock() - exe;
     double tempo = ((double)exe)/CLOCKS_PER_SEC;
     FILE *f1 = fopen("estatisticas.csv", "a");
-    fprintf(f1,"%s;%f\n",__func__,tempo);
+    fprintf(f1,"%s;%.3f\n",__func__,tempo);
     fclose(f1);
 }
 
@@ -186,7 +186,7 @@ void Mostrar_BDados(BDadosCoupe *BD)
     exe = clock() - exe;
     double tempo = ((double)exe)/CLOCKS_PER_SEC;
     FILE *f1 = fopen("estatisticas.csv", "a");
-    fprintf(f1,"%s;%f\n",__func__,tempo);
+    fprintf(f1,"%s;%.3f\n",__func__,tempo);
     fclose(f1);
 }
 
@@ -209,27 +209,30 @@ void Destruir_BDados(BDadosCoupe *BD)
     exe = clock() - exe;
     double tempo = ((double)exe)/CLOCKS_PER_SEC;
     FILE *f1 = fopen("estatisticas.csv", "a");
-    fprintf(f1,"%s;%f\n",__func__,tempo);
+    fprintf(f1,"%s;%.3f\n",__func__,tempo);
     fclose(f1);
 }
 //J)	Memória ocupada por toda a base de dados.
 long int Memoria_BDados(BDadosCoupe *BD)
 {
-
     if(!BD) return INSUCESSO;
-
-    long int qtd_memoria = 0;
-
-
-
-
-    return qtd_memoria;
+    return CalcularTamanhoMemoriaLG(BD->LTabelas, Obter_Tamanho_Memoria_Tabela);
 }
+
 long int Memoria_Desperdicada_BDados(BDadosCoupe *BD)
 {
-    return -1;
+    if(!BD) return 0;
+    return CalcularTamanhoMemoriaLG(BD->LTabelas, Obter_Tamanho_Desperdicado_Memoria_Tabela);
 }
-//K)	Exportar/Importar para/de Ficheiro (o retorno destas funções, permite saber se a função foi bem/mal-executada!):
+
+/** \brief K)	Exportar/Importar para/de Ficheiro (o retorno destas funções, permite saber se a função foi bem/mal-executada!):
+ *
+ * \param BD BDadosCoupe*
+ * \param tabela char*
+ * \param ficheir_csv char*
+ * \return int
+ *
+ */
 int Exportar_Tabela_BDados_Excel(BDadosCoupe *BD, char *tabela, char *ficheir_csv)
 {
     clock_t exe;
@@ -249,7 +252,7 @@ int Exportar_Tabela_BDados_Excel(BDadosCoupe *BD, char *tabela, char *ficheir_cs
     exe = clock() - exe;
     double tempo = ((double)exe)/CLOCKS_PER_SEC;
     FILE *f1 = fopen("estatisticas.csv", "a");
-    fprintf(f1,"%s;%f\n",__func__,tempo);
+    fprintf(f1,"%s;%.3f\n",__func__,tempo);
     fclose(f1);
     return SUCESSO;
 
@@ -264,9 +267,10 @@ int Exportar_Tabela_BDados_Excel(BDadosCoupe *BD, char *tabela, char *ficheir_cs
 
 int Exportar_BDados_Excel(BDadosCoupe *BD, char *ficheir_csv)
 {
-    clock_t exe;
-    exe = clock();
     if(!BD || !ficheir_csv) return INSUCESSO;
+
+       clock_t exe;
+      exe = clock();
 
     FILE *F=fopen(ficheir_csv,"w");
     rewind(F);
@@ -282,14 +286,14 @@ int Exportar_BDados_Excel(BDadosCoupe *BD, char *ficheir_csv)
         Gravar_Tabela_TXT(T,F);
 
         P=P->Prox;
-        fprintf(F,"\n");
+        fprintf(F,"###\n"); // Delimita o fim de uma tabela
     }
-
+    fprintf(F,"---\n"); // Delimita o fim da BD
     fclose(F);
     exe = clock() - exe;
     double tempo = ((double)exe)/CLOCKS_PER_SEC;
     FILE *f1 = fopen("estatisticas.csv", "a");
-    fprintf(f1,"%s;%f\n",__func__,tempo);
+    fprintf(f1,"%s;%.3f\n",__func__,tempo);
     fclose(f1);
     return SUCESSO;
 }
@@ -329,28 +333,56 @@ int Importar_BDados_Excel(BDadosCoupe *BD, char *ficheir_csv)
 }
 int Exportar_BDados_Ficheiro_Binario(BDadosCoupe *BD, char *fich_dat)
 {
-    clock_t exe;
-    exe = clock();
+    if(!BD || !fich_dat) return INSUCESSO;
     FILE *F = fopen(fich_dat, "wb");
 
+    if(!F)return INSUCESSO;
+
+    clock_t exe;
+    exe = clock();
+
+    //nome BD
+    char *s_nome_BD = (char*) malloc(sizeof(char) * strlen(BD->NOME_BDADOS) + 1);
+    strcpy(s_nome_BD, BD->NOME_BDADOS);
+    int N_nome_BD = strlen(s_nome_BD);
+    fwrite(&N_nome_BD, sizeof(int), 1, F);
+    fwrite(s_nome_BD, sizeof(char), N_nome_BD, F);
+    free(s_nome_BD);
+    //versao BD
+    char *s_versao_BD = (char*) malloc(sizeof(char) * strlen(BD->VERSAO_BDADOS) + 1);
+    strcpy(s_versao_BD, BD->VERSAO_BDADOS);
+    int N_versao_BD = strlen(s_versao_BD);
+    fwrite(&N_versao_BD, sizeof(int), 1, F);
+    fwrite(s_versao_BD, sizeof(char), N_versao_BD, F);
+    free(s_versao_BD);
+
     ListaGenerica *L=BD->LTabelas;
+
+    fwrite(&(L->NEL), sizeof(int), 1, F);//Quantas tabelas
 
     NOG *P = L->Inicio;
 
     while(P)
     {
         TABELA *T=P->Info;
-
+        // TODO: ARRUMAR
+        //nome tabela
+        char s_nome_tabela[51];
+        strncpy(s_nome_tabela, T->NOME_TABELA, 51);
+        int N_nome_tabela = strlen(s_nome_tabela);
+        fwrite(&N_nome_tabela, sizeof(int), 1, F);
+        fwrite(s_nome_tabela, sizeof(char), N_nome_tabela, F);
         Gravar_Tabela_Binario(T,F);
 
         P=P->Prox;
     }
 
+
     fclose(F);
     exe = clock() - exe;
     double tempo = ((double)exe)/CLOCKS_PER_SEC;
     FILE *f1 = fopen("estatisticas.csv", "a");
-    fprintf(f1,"%s;%f\n",__func__,tempo);
+    fprintf(f1,"%s;%.3f\n",__func__,tempo);
     fclose(f1);
     return SUCESSO;
 }
@@ -358,7 +390,31 @@ int Exportar_BDados_Ficheiro_Binario(BDadosCoupe *BD, char *fich_dat)
 
 int Importar_BDados_Ficheiro_Binario(BDadosCoupe *BD, char *fich_dat)
 {
+    FILE *F = fopen(fich_dat, "rb");
+    if(!F)return INSUCESSO;
 
+    int bytes_nome_versao_bd=sizeof(int)+(strlen(BD->NOME_BDADOS) * sizeof(char))+sizeof(int)+(strlen(BD->VERSAO_BDADOS)*sizeof(char)); // para saber onde o ponteiro esta depois de ler o nome e a versao da bd
+
+    fseek(F,bytes_nome_versao_bd,SEEK_SET);
+
+    ListaGenerica *L=BD->LTabelas;
+
+    fread(&L->NEL, sizeof(int), 1, F);
+    int numero_tabelas=L->NEL;
+    TABELA *T;
+
+    for(int i=0; i<numero_tabelas; i++)
+    {
+        int N_tabela;
+        fread(&N_tabela, sizeof(int), 1, F);
+        char *s_tabela = (char*) malloc(sizeof(char) * N_tabela);
+        fread(s_tabela, sizeof(char), N_tabela, F);
+        s_tabela[N_tabela]='\0';
+        T = Criar_Tabela(BD,s_tabela);
+        Ler_Tabela_Binario(T,F);
+        free(s_tabela);
+    }
+    fclose(F);
     return SUCESSO;
 }
 
@@ -398,7 +454,7 @@ int Exportar_BDados_Ficheiro_Texto(BDadosCoupe *BD, char *fich_text)
     exe = clock() - exe;
     double tempo = ((double)exe)/CLOCKS_PER_SEC;
     FILE *f1 = fopen("estatisticas.csv", "a");
-    fprintf(f1,"%s;%f\n",__func__,tempo);
+    fprintf(f1,"%s;%.3f\n",__func__,tempo);
     fclose(f1);
     return SUCESSO;
 }
@@ -420,7 +476,7 @@ int DELETE_TABLE_DATA(TABELA *T)
     exe = clock() - exe;
     double tempo = ((double)exe)/CLOCKS_PER_SEC;
     FILE *f1 = fopen("estatisticas.csv", "a");
-    fprintf(f1,"%s;%f\n",__func__,tempo);
+    fprintf(f1,"%s;%.3f\n",__func__,tempo);
     fclose(f1);
     return SUCESSO;
 }
@@ -452,7 +508,7 @@ int DROP_TABLE(BDadosCoupe *BD, char *nome_tabela)
     exe = clock() - exe;
     double tempo = ((double)exe)/CLOCKS_PER_SEC;
     FILE *f1 = fopen("estatisticas.csv", "a");
-    fprintf(f1,"%s;%f\n",__func__,tempo);
+    fprintf(f1,"%s;%.3f\n",__func__,tempo);
     fclose(f1);
 }
 
@@ -525,7 +581,7 @@ int SELECT(BDadosCoupe *BD, char *_tabela, int (*f_condicao)(char *, char *), ch
     exe = clock() - exe;
     double tempo = ((double)exe)/CLOCKS_PER_SEC;
     FILE *f1 =  fopen("estatisticas.csv", "a+");
-    fprintf(f1, "%s;%f\n",__func__,tempo);
+    fprintf(f1, "%s;%.3f\n",__func__,tempo);
     fclose(f1);
     return SUCESSO;
 }
@@ -569,25 +625,24 @@ int DELETE(BDadosCoupe *BD, char *_tabela, int (*f_condicao)(char *, char *), ch
 
     NOG * elem = NULL;
     NOG * anterior = Registos->Inicio;
-     elem = anterior;
+    elem = anterior;
 
     int SATISFAZ = INSUCESSO;
     int EXCLUIDOS = 0;
 
     // verifica pro primeiro elemento
 
-      NOG * PRIMEIRO = ObterElementoDaPosicao(anterior->Info, POS_CAMPO);
+    NOG * PRIMEIRO = ObterElementoDaPosicao(anterior->Info, POS_CAMPO);
 
-      // verifica o caso o primeiro necessita ser deletado
+    // verifica o caso o primeiro necessita ser deletado
 
-      if(f_condicao(PRIMEIRO->Info, valor_comparacao))
-      {
-          puts("o primeiro deve ser deletado!");
-          RemoverPrimeiroLG(Registos, Destruir_Registo);
-          anterior = Registos->Inicio; // atualiza o novo inicio
-      }
+    if(f_condicao(PRIMEIRO->Info, valor_comparacao))
+    {
+        RemoverPrimeiroLG(Registos, Destruir_Registo);
+        anterior = Registos->Inicio; // atualiza o novo inicio
+    }
 
-      elem = anterior;
+    elem = anterior;
 
     while(anterior->Prox)
     {
@@ -603,25 +658,26 @@ int DELETE(BDadosCoupe *BD, char *_tabela, int (*f_condicao)(char *, char *), ch
 
             if(SATISFAZ) // caso o dado satisfaça a condição proposta
             {
-            // TODO: RESOLVER
+                // TODO: RESOLVER
 
-            // caso seja o primeiro
-            if(Compara_Registo(anterior->Info, Registos->Inicio->Info))
-            {
-             //   Registos->Inicio = anterior->Prox;
-              //  Destruir_Registo(anterior->Info);
-                puts("eh o primeiro");
+                // caso seja o primeiro
+                if(Compara_Registo(anterior->Info, Registos->Inicio->Info))
+                {
+                    //   Registos->Inicio = anterior->Prox;
+                    //  Destruir_Registo(anterior->Info);
 
-            }
+                }
                 EXCLUIDOS++;
                 anterior->Prox = elem->Prox;
                 if(!elem->Prox) // caso seja o ultimo
                 {
-                Registos->Fim = anterior;
+                    Registos->Fim = anterior;
                 }
-                 Destruir_Registo(elem->Info);
+                Destruir_Registo(elem);
+                // free(elem->Info);
+                //free(elem);
                 continue;
-        }
+            }
         }
 
         anterior = anterior->Prox;
@@ -629,7 +685,7 @@ int DELETE(BDadosCoupe *BD, char *_tabela, int (*f_condicao)(char *, char *), ch
     exe = clock() - exe;
     double tempo = ((double)exe)/CLOCKS_PER_SEC;
     FILE *f1 =  fopen("estatisticas.csv", "a+");
-    fprintf(f1, "%s;%f\n",__func__,tempo);
+    fprintf(f1, "%s;%.3f\n",__func__,tempo);
     fclose(f1);
     return EXCLUIDOS;
 }
@@ -708,7 +764,7 @@ int UPDATE(BDadosCoupe *BD, char *_tabela, int (*f_condicao)(char *, char *),
     exe = clock() - exe;
     double tempo = ((double)exe)/CLOCKS_PER_SEC;
     FILE *f1 =  fopen("estatisticas.csv", "a+");
-    fprintf(f1, "%s;%f\n",__func__,tempo);
+    fprintf(f1, "%s;%.3f\n",__func__,tempo);
     fclose(f1);
     return atualizados ;
 }
@@ -722,7 +778,6 @@ int UPDATE(BDadosCoupe *BD, char *_tabela, int (*f_condicao)(char *, char *),
  */
 int Condicao_Todos(void * info1, void *info2)
 {
-
     if(!info1 || !info2) return INSUCESSO;
 
     return SUCESSO;
@@ -748,7 +803,7 @@ int Mostrar_Todos_Registos(TABELA *T)
     exe = clock() - exe;
     double tempo = ((double)exe)/CLOCKS_PER_SEC;
     FILE *f1 =  fopen("estatisticas.csv", "a+");
-    fprintf(f1, "%s;%f\n",__func__,tempo);
+    fprintf(f1, "%s;%.3f\n",__func__,tempo);
     fclose(f1);
     return SUCESSO;
 
@@ -781,16 +836,44 @@ int Mostrar_BDados_toda(BDadosCoupe *BD)
     {
         TABELA *T=P->Info;
         Mostrar_Todos_Registos(T);
-
         P=P->Prox;
     }
     exe = clock() - exe;
     double tempo = ((double)exe)/CLOCKS_PER_SEC;
     FILE *f1 =  fopen("estatisticas.csv", "a+");
-    fprintf(f1, "%s;%f\n",__func__,tempo);
+    fprintf(f1, "%s;%.3f\n",__func__,tempo);
     fclose(f1);
     return SUCESSO;
 }
 
+
+BDadosCoupe *Ler_nome_versao_BD_bin(char *fich_dat)
+{
+    FILE *F = fopen(fich_dat, "rb");
+
+    if(!F)return NULL;
+
+    //nome_BD
+    int N_nome_BD;
+    fread(&N_nome_BD, sizeof(int), 1, F);
+    char *s_nome_BD = (char*) malloc(sizeof(char) * N_nome_BD);
+    fread(s_nome_BD, sizeof(char), N_nome_BD, F);
+    s_nome_BD[N_nome_BD]='\0';
+
+    //vesao_BD
+    int N_versao_BD;
+    fread(&N_versao_BD, sizeof(int), 1, F);
+    char *s_versao_BD = (char*) malloc(sizeof(char) * N_versao_BD);
+    fread(s_versao_BD, sizeof(char), N_versao_BD, F);
+    s_versao_BD[N_versao_BD]='\0';
+
+
+    //int len = ftell(F);
+    //printf("Size of file: %d bytes", len);
+    fclose(F);
+
+
+    return Criar_BDados(s_nome_BD,s_versao_BD);
+}
 
 
