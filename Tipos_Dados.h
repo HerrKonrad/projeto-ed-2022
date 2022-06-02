@@ -1,5 +1,6 @@
 #ifndef TIPOS_DADOS_H_INCLUDED
 #define TIPOS_DADOS_H_INCLUDED
+#include <ctype.h>
 
 #include "ListaGenerica.h"
 #include "utils.h"

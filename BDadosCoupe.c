@@ -154,7 +154,6 @@ void Mostrar_Tabela(TABELA *T)
 
     if(!T || !T->NOME_TABELA)
     {
-        debugTxt("Tabela inexistente", FICH_DEBUG);
         return;
     }
 
@@ -221,7 +220,7 @@ long int Memoria_BDados(BDadosCoupe *BD)
 
 long int Memoria_Desperdicada_BDados(BDadosCoupe *BD)
 {
-    if(!BD) return 0;
+    if(!BD) return INSUCESSO;
     return CalcularTamanhoMemoriaLG(BD->LTabelas, Obter_Tamanho_Desperdicado_Memoria_Tabela);
 }
 
@@ -523,13 +522,14 @@ int DROP_TABLE(BDadosCoupe *BD, char *nome_tabela)
  *
  */
 
-// TODO: AJUSTAR O CASO DE NÃO ENCONTRAR DADOS
 int SELECT(BDadosCoupe *BD, char *_tabela, int (*f_condicao)(char *, char *), char *nome_campo, char *valor_comparacao)
 {
     if(!BD || !_tabela || !nome_campo || !valor_comparacao) return INSUCESSO;
     clock_t exe;
     exe = clock();
 
+    // Vamos querer saber a quantidade de registos selecionados
+    int SELECIONADOS = 0;
 
 
     // 1º Verificar se a tabela passada existe
@@ -557,8 +557,8 @@ int SELECT(BDadosCoupe *BD, char *_tabela, int (*f_condicao)(char *, char *), ch
 
     int SATISFAZ = INSUCESSO;
 
-    // Mostrar na tela os campo
-    MostrarLG(Campos, Mostrar_Campo);
+    // Mostrar na tela os campos
+    MostrarLG(Campos, Mostrar_Campo_Simples);
     printf("\n");
     while(elem)
     {
@@ -573,17 +573,19 @@ int SELECT(BDadosCoupe *BD, char *_tabela, int (*f_condicao)(char *, char *), ch
             {
                 REGISTO * reg_atual = elem->Info;
                 Mostrar_Registo(reg_atual);
+                SELECIONADOS++;
             }
         }
         elem = elem->Prox;
     }
 
+    // Manda o tempo gasto na função para o ficheio de estatisticas
     exe = clock() - exe;
     double tempo = ((double)exe)/CLOCKS_PER_SEC;
     FILE *f1 =  fopen("estatisticas.csv", "a+");
     fprintf(f1, "%s;%.3f\n",__func__,tempo);
     fclose(f1);
-    return SUCESSO;
+    return SELECIONADOS;
 }
 
 /** \brief O)	Remover todos os registos que obedeçam a uma dada condição, a função deve retornar o número de registos removidos.
@@ -658,24 +660,26 @@ int DELETE(BDadosCoupe *BD, char *_tabela, int (*f_condicao)(char *, char *), ch
 
             if(SATISFAZ) // caso o dado satisfaça a condição proposta
             {
+                EXCLUIDOS++;
                 // TODO: RESOLVER
 
                 // caso seja o primeiro
                 if(Compara_Registo(anterior->Info, Registos->Inicio->Info))
                 {
-                    //   Registos->Inicio = anterior->Prox;
-                    //  Destruir_Registo(anterior->Info);
-
+                       Registos->Inicio = anterior->Prox;
+                       Destruir_Registo(anterior->Info);
+                      Registos->NEL--;
+                       continue;
                 }
-                EXCLUIDOS++;
+
                 anterior->Prox = elem->Prox;
                 if(!elem->Prox) // caso seja o ultimo
                 {
                     Registos->Fim = anterior;
                 }
                 Destruir_Registo(elem);
-                // free(elem->Info);
-                //free(elem);
+                Registos->NEL--;
+
                 continue;
             }
         }
@@ -875,5 +879,93 @@ BDadosCoupe *Ler_nome_versao_BD_bin(char *fich_dat)
 
     return Criar_BDados(s_nome_BD,s_versao_BD);
 }
+
+/** \brief A condição para retornar SUCESSO caso a string de referencia seja menor alfabeticamente que a pesquisada
+ * ISSO SERÁ NECESSÁRIO PARA O SELECT, DELETE, E UPDATE. SE QUEREMOS POR EXEMPLO MOSTRAR TODOS OS DADOS DO CAMPO
+ * ONDE SEJA ALFABETICAMENTE MAIOR, UTILIZAMOS ESSA FUNÇÃO COMO ARGUMENTO
+ * \param info1 void*
+ * \param info2 void*
+ * \return int
+ *
+ */
+int Condicao_Maior(void *info1, void *info2)
+{
+    if(!info1 || !info2) return INSUCESSO;
+    char * X1 = (char*) info1;
+    char * X2 = (char*) info2;
+    return stricmp(X1, X2) > 0 ? SUCESSO : INSUCESSO; // caso o stricmp devolva um valor menor 0, X1 é maior alfabeticamente
+}
+
+/** \brief A condição para retornar SUCESSO caso a string de referencia seja maior alfabeticamente que a pesquisada
+ * ISSO SERÁ NECESSÁRIO PARA O SELECT, DELETE, E UPDATE. SE QUEREMOS POR EXEMPLO MOSTRAR TODOS OS DADOS DO CAMPO
+ * ONDE SEJA ALFABETICAMENTE MENOR, UTILIZAMOS ESSA FUNÇÃO COMO ARGUMENTO
+ * \param info1 void*
+ * \param info2 void*
+ * \return int
+ *
+ */
+int Condicao_Menor(void *info1, void *info2)
+{
+    if(!info1 || !info2) return INSUCESSO;
+    char * X1 = (char*) info1;
+    char * X2 = (char*) info2;
+    return stricmp(X1, X2) < 0 ? SUCESSO : INSUCESSO; // caso o stricmp devolva um valor menor 0, X1 é menor alfabeticamente
+}
+
+/** \brief A condição para retornar SUCESSO caso a string de referencia seja igual (ignorando maiusculas) que a pesquisada
+ * ISSO SERÁ NECESSÁRIO PARA O SELECT, DELETE, E UPDATE. SE QUEREMOS POR EXEMPLO MOSTRAR TODOS OS DADOS DO CAMPO
+ * ONDE SEJA IGUAL, UTILIZAMOS ESSA FUNÇÃO COMO ARGUMENTO
+ *
+ * \param info1 void*
+ * \param info2 void*
+ * \return int
+ *
+ */
+int Condicao_Igual(void *info1, void *info2)
+{
+    if(!info1 || !info2) return INSUCESSO;
+    char * X1 = (char*) info1;
+    char * X2 = (char*) info2;
+    return stricmp(X1, X2) == 0 ? SUCESSO : INSUCESSO; // caso o stricmp devolva um valor menor 0, X1 é menor alfabeticamente
+}
+
+/** \brief
+ *
+ * \param info1 void*
+ * \param info2 void*
+ * \return int
+ *
+ */
+int Condicao_Maior_Numericamente(void *info1, void *info2)
+{
+     if(!info1 || !info2) return INSUCESSO;
+    char * X1 = (char*) info1;
+    char * X2 = (char*) info2;
+    // verifica se é inteiro
+    int n1 = atoi(X1);
+    int n2 = atoi(X2);
+    return n2 < n1 ? SUCESSO : INSUCESSO;
+}
+
+
+/** \brief
+ *
+ * \param info1 void*
+ * \param info2 void*
+ * \return int
+ *
+ */
+int Condicao_Menor_Numericamente(char *X1, char *X2)
+{
+     if(!X1 || !X2) return INSUCESSO;
+
+    // tenta fazer o ATOI (converter string para inteiro)
+    int n1 = atoi(X1);
+    int n2 = atoi(X2);
+    return n2 > n1 ? SUCESSO : INSUCESSO;
+}
+
+
+
 
 

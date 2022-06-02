@@ -241,8 +241,9 @@ void RemoverElementoLG(ListaGenerica *L, void * ele_remover, void (*func_remover
             anterior->Prox = P->Prox;
             func_remover(P->Info);
             free(P);
+             L->NEL--;
         }
-        L->NEL--;
+
     }
     else
     {

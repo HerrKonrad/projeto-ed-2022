@@ -7,6 +7,7 @@
 
 
 
+
 #include "Tipos_Dados.h"
 
 #define FICH_ESTATISTICAS "estatisticas.csv"
@@ -54,6 +55,16 @@ int DELETE(BDadosCoupe *BD, char *_tabela, int (*f_condicao)(char *, char *), ch
 int UPDATE(BDadosCoupe *BD, char *_tabela, int (*f_condicao)(char *, char *), char *campo_comp, char *valor_campo_comp, char *nome_campo_update, char *valor_campo_update);
 
 int Condicao_Todos(void * info1, void *info2);
+
+int Condicao_Maior(void *info1, void *info2);
+
+int Condicao_Menor(void *info1, void *info2);
+
+int Condicao_Igual(void *info1, void *info2);
+
+int Condicao_Maior_Numericamente(void *info1, void *info2);
+
+int Condicao_Menor_Numericamente(char *X1, char *X2);
 
 int Mostrar_Todos_Registos(TABELA *T);
 

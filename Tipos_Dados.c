@@ -260,6 +260,8 @@ void Gravar_Dado_Binario(char * dado, FILE *F)
  */
 void Gravar_Registo_Binario(REGISTO *r, FILE *F)
 {
+    short qtd_dados = r->NEL;
+    fwrite(&qtd_dados, sizeof(short), 1, F);
     GravarFicheiroBinarioLG(r,Gravar_Dado_Binario,F);
 }
 
@@ -354,7 +356,9 @@ int Ler_Tabela_Binario(TABELA *T,FILE *F)
     for(int i=0;i<num_registos;i++)
     {
         R = CriarLG();
-        for(int j=0;j<nel_tabela;j++)
+        int qtd_dados = 0;
+        fread(&qtd_dados, sizeof(short), 1, F);
+        for(int j=0;j<qtd_dados;j++)
         {
         int N_registo;
         fread(&N_registo, sizeof(int), 1, F);

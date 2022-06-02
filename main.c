@@ -15,7 +15,7 @@
 #define ficheiro_binario "BD.dat"
 #define ficheiro_excel "BD.csv"
 
-extern int contemPalavra(char * str, char * substr);
+
 
 
 void geradorRegistos(size_t n)
@@ -43,15 +43,15 @@ void geradorRegistos(size_t n)
     for ( i = 0 ; i < n ; i++)
     {
 
-        sprintf(registo, "%d;xpto%d;xpto%d@outlook.com;%d-%d", i, i, i, aleatorio(50, 100), aleatorio(50, 100));
+        sprintf(registo, "%d;xpto%d;xpto%d@outlook.com", i, i, i, aleatorio(50, 100), aleatorio(50, 100));
         Add_Valores_Tabela(T, registo);
         sprintf(registo2, "%d;nome%d", i, i);
         Add_Valores_Tabela(T2, registo2);
     }
 
-
+    DELETE(BD, "XPTO", Condicao_Maior_Numericamente, "ID", "2");
     Exportar_BDados_Ficheiro_Binario(BD,ficheiro_binario);
-    Exportar_BDados_Excel(BD, ficheiro_excel);
+   // Exportar_BDados_Excel(BD, ficheiro_excel);
     Destruir_BDados(BD);
 }
 
@@ -60,19 +60,17 @@ void testes()
     BDadosCoupe *BD=Ler_nome_versao_BD_bin(ficheiro_binario);
     Importar_BDados_Ficheiro_Binario(BD,ficheiro_binario);
 
-
-
-    Mostrar_BDados(BD);
-    printf("\n");
-
   // Importar_BDados_Excel(BD, "excel_arrumado.csv" );
 
    // Exportar_BDados_Excel(BD, "excel_arrumado.csv");
 
-   // SELECT(BD, "XPTO", contemPalavra, "NOME", "999999");
+    //SELECT(BD, "XPTO", Condicao_Maior_Numericamente, "ID", "90");
+
+
+
    printf("\n tamanho BD: %ld bytes", Memoria_BDados(BD));
    printf("\n tamanho despedicado BD: %ld bytes", Memoria_Desperdicada_BDados(BD));
-    Mostrar_BDados_toda(BD);
+   Mostrar_BDados_toda(BD);
 
    // SELECT(BD, "XPTO", contemPalavra, "NOME", "9");
 
@@ -89,9 +87,8 @@ As tabelas podem ter relacionamentos entre elas
 int main()
 {
     geradorRegistos(500);
+   // iniciarPrograma();
+   // menuPrincipal();
     testes();
-
-
-
     return 0;
 }

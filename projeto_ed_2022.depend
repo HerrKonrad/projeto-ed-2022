@@ -327,16 +327,17 @@
 	"BDadosCoupe.h"
 	"Tipos_Dados.h"
 
-1654098681 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\bdadoscoupe.c
+1654191141 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\bdadoscoupe.c
 	"BDadosCoupe.h"
 
-1654090200 c:\users\herrk\documents\programação\c\projetos\projeto_ed\bdadoscoupe.h
+1654187106 c:\users\herrk\documents\programação\c\projetos\projeto_ed\bdadoscoupe.h
 	<stdio.h>
 	<stdlib.h>
 	<string.h>
 	"Tipos_Dados.h"
 
-1654089636 c:\users\herrk\documents\programação\c\projetos\projeto_ed\tipos_dados.h
+1654186173 c:\users\herrk\documents\programação\c\projetos\projeto_ed\tipos_dados.h
+	<ctype.h>
 	"ListaGenerica.h"
 	"utils.h"
 
@@ -349,17 +350,17 @@
 1653485174 c:\users\herrk\documents\programação\c\projetos\projeto_ed\utils.h
 	<time.h>
 
-1654007098 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\listagenerica.c
+1654190641 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\listagenerica.c
 	"ListaGenerica.h"
 
-1654098924 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\menus.c
+1654189856 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\menus.c
 	"BDadosCoupe.h"
 	"menus.h"
 
-1654098910 c:\users\herrk\documents\programação\c\projetos\projeto_ed\menus.h
+1654189684 c:\users\herrk\documents\programação\c\projetos\projeto_ed\menus.h
 	"BDadosCoupe.h"
 
-1654095414 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\tipos_dados.c
+1654187455 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\tipos_dados.c
 	"Tipos_Dados.h"
 
 1653485174 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\utils.c
@@ -368,7 +369,7 @@
 	<stdlib.h>
 	<time.h>
 
-1654098910 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\main.c
+1654191073 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\main.c
 	<stdio.h>
 	<stdlib.h>
 	"BDadosCoupe.h"

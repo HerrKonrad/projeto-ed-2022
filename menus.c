@@ -3,7 +3,8 @@
 #include "menus.h"
 #define ficheiro_binario "BD.dat"
 #define ficheiro_excel "BD.csv"
-BDadosCoupe *BD;
+
+
 
 
 // SELECT tabela
@@ -20,6 +21,15 @@ BDadosCoupe *BD;
 
 // apagar conteudo tabela (DELETE TABLE DATA)
 
+void iniciarPrograma()
+{
+
+    BD = Ler_nome_versao_BD_bin(ficheiro_binario);
+    if (!BD)
+        menuCriar_BDados();
+    else
+        Importar_BDados_Ficheiro_Binario(BD,ficheiro_binario);
+}
 
 
 void menuCriar_BDados(){
@@ -88,7 +98,6 @@ void menuPesquisar_Tabela()
 }
 int menuPrincipal(){
     int opcaoInvalida, opcao;
-
     do
     {
         system("cls");
@@ -143,22 +152,27 @@ int menuPrincipal(){
 }
 
 int menuTabelas(){
+    TABELA *T;
     int opcao;
         system("cls");
         printf(" _________________________________________________________________________\n");
         printf("|                              MENU TABELAS                               |\n");
         printf("|_________________________________________________________________________|\n");
-        //mostrarTabelastodas();
-        //printf("________________________________________________________________________");
+        T = menuSelecionarTabela();
+        if (!T){
+            teclaParaContinuar();
+            menuTabelas();
+        }
+        printf("___________________________________________________________________________");
         printf("\n\n\t1 - Criar tabela\n");
-        printf("\t2 - Ver tabela/todas as tabelas\n");
+        printf("\t2 - Ver tabela\n");
         printf("\t3 - Apagar tabela\n");
         printf("\t4 - Apagar todo o conteudo da tabela\n");
         printf("\t5 - Procurar valores na tabela\n");
         printf("\t6 - Apagar dados da tabela sob condição\n");
         printf("\t7 - Atualizar Valores\n");
         printf("\t8 - Inserir Dados a tabela\n");
-        printf("\t9 - Exportar Tabela Para Binário\n");
+        printf("\t9 - Exportar Tabela Para Excel\n");
         printf("\t0 - Voltar\n");
         printf("\nDigite o numero relativo ao menu a que pretende aceder: ");
         scanf("%d", &opcao);
@@ -167,7 +181,7 @@ int menuTabelas(){
         {
         case 1:
             system("cls");
-
+            menuCriar_Tabela();
             break;
         case 2:
             system("cls");
@@ -175,15 +189,15 @@ int menuTabelas(){
             break;
         case 3:
             system("cls");
-            //DROP_TABLE(BD, menuSelecionarTabela());
+            DROP_TABLE(BD, T);
             break;
         case 4:
             system("cls");
-
+            DELETE_TABLE_DATA(T);
             break;
         case 5:
             system("cls");
-
+            // menuProcurarValoresTabela();
             break;
         case 6:
             system("cls");
@@ -195,11 +209,11 @@ int menuTabelas(){
             break;
         case 8:
             system("cls");
-
+            menuAdd_Valores_Tabela(T);
             break;
         case 9:
             system("cls");
-
+            Exportar_Tabela_BDados_Excel(BD, T->NOME_TABELA, ficheiro_excel);
             break;
         case 0:
             system("cls");
@@ -215,18 +229,30 @@ int menuTabelas(){
         fseek(stdin, 2, 0);
     return 0;
 }
-/*
-char * menuSelecionarTabela(){
 
+TABELA * menuSelecionarTabela(){
+    int erro=0;
     char nome[TAMANHO_NOME];
-    Mostrar_BDados_toda(BD);
-    lerString("\nEscolha uma das listas", nome);
-    return nome;
+    Mostrar_BDados(BD);
+    lerString("\nEscolha uma das tabelas", nome);
+    TABELA *T = Pesquisar_Tabela(BD, nome);
 
-}*/
-
-void menuProcurarValoresTabela(){
+    if(T)
+        return T;
+    else
+        printf("\n\n\t\t tabela nao encontrada");
 
 
 
 }
+/*
+void menuProcurarValoresTabela(TABELA *T){
+
+    char palavra[5];
+    char nome[TAMANHO_NOME];
+    char valor[150];
+    lerString("O valor que deseja procurar contem palavra?(S/N): ", palavra);
+    SELECT(BD, T->NOME_TABELA, contemPalavra(palavra), nome, valor );
+
+}
+*/
