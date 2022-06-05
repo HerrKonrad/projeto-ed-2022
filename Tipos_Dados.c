@@ -243,11 +243,12 @@ int Gravar_Tabela_TXT(TABELA *T,FILE *F)
 void Gravar_Dado_Binario(char * dado, FILE *F)
 {
     if(!F) return;
-    int tam_dado = strlen(dado) + 1;
-    char *s_dado = (char*) malloc(sizeof(char) * tam_dado);
+
+    char *s_dado = (char*) malloc(sizeof(char) * strlen(dado)+1);
     strcpy(s_dado, dado);
-    fwrite(&tam_dado, sizeof(int), 1, F);
-    fwrite(s_dado, sizeof(char), tam_dado, F);
+    int N_dado = strlen(s_dado);
+    fwrite(&N_dado, sizeof(int), 1, F);
+    fwrite(s_dado, sizeof(char), N_dado, F);
     free(s_dado);
 }
 
@@ -260,8 +261,8 @@ void Gravar_Dado_Binario(char * dado, FILE *F)
  */
 void Gravar_Registo_Binario(REGISTO *r, FILE *F)
 {
-    short qtd_dados = r->NEL;
-    fwrite(&qtd_dados, sizeof(short), 1, F);
+    int qtd_dados = r->NEL;
+    fwrite(&qtd_dados, sizeof(int), 1, F);
     GravarFicheiroBinarioLG(r,Gravar_Dado_Binario,F);
 }
 
@@ -275,7 +276,7 @@ void Gravar_Registo_Binario(REGISTO *r, FILE *F)
 void Gravar_Campo_Binario(CAMPO * campo, FILE *F)
 {
     // Grava o nome do campo
-    char *s_nome = (char*) malloc(sizeof(char) * strlen(campo->NOME_CAMPO) + 1);
+    char *s_nome = (char*) malloc(sizeof(char) * strlen(campo->NOME_CAMPO));
     strcpy(s_nome, campo->NOME_CAMPO);
     int N_nome = strlen(s_nome);
     fwrite(&N_nome, sizeof(int), 1, F);
@@ -283,7 +284,7 @@ void Gravar_Campo_Binario(CAMPO * campo, FILE *F)
     free(s_nome);
     // Grava o tipo do campo
 
-    char *s_tipo = (char*) malloc(sizeof(char) * strlen(campo->TIPO) + 1);
+    char *s_tipo = (char*) malloc(sizeof(char) * strlen(campo->TIPO));
     strcpy(s_tipo, campo->TIPO);
     int N_tipo = strlen(s_tipo);
     fwrite(&N_tipo, sizeof(int), 1, F);
@@ -296,10 +297,10 @@ void Gravar_Campo_Binario(CAMPO * campo, FILE *F)
 int Gravar_Tabela_Binario(TABELA *T,FILE *F)
 {
     if(!T) return INSUCESSO;
-    int num_campos=T->LCampos->NEL;
+    int num_campos = T->LCampos->NEL;
     fwrite(&num_campos, sizeof(int), 1, F); //numero de Campos
     GravarFicheiroBinarioLG(T->LCampos,Gravar_Campo_Binario,F);
-    int num_registos=T->LRegistos->NEL;
+    int num_registos = T->LRegistos->NEL;
     fwrite(&num_registos, sizeof(int), 1, F);   //numero de Registos
     GravarFicheiroBinarioLG(T->LRegistos, Gravar_Registo_Binario, F);
     return SUCESSO;
@@ -316,31 +317,26 @@ int Ler_Tabela_Binario(TABELA *T,FILE *F)
 {
     if(!T || !F) return INSUCESSO;
 
-    fread(&T->LCampos->NEL, sizeof(int), 1, F);
+    int n_campos = 0;
+    fread(&n_campos, sizeof(int), 1, F);
     //printf("\n nel tabela:%d",T->LCampos->NEL);
 
     //TABELA
-
-    int nel_tabela = T->LCampos->NEL;
-    for(int i=0; i<nel_tabela; i++)
+    for(int i=0; i<n_campos; i++)
     {
         // ler o nome do campo
         int N_campo;
         fread(&N_campo, sizeof(int), 1, F);
-        //printf("\nN_campo:%d",N_campo);
-        char *s_campo = (char*) malloc(sizeof(char) * N_campo);
+        char *s_campo = (char*) malloc(sizeof(char) * N_campo + 1);
         fread(s_campo, sizeof(char), N_campo, F);
         s_campo[N_campo]='\0';
-        //printf("\ns_campo:[%s]",s_campo);
 
         // ler o tipo do campo
         int N_tipo;
         fread(&N_tipo, sizeof(int), 1, F);
-        //printf("\nN_tipo:%d",N_tipo);
-        char *s_tipo = (char*) malloc(sizeof(char) * N_tipo);
+        char *s_tipo = (char*) malloc(sizeof(char) * N_tipo + 1);
         fread(s_tipo, sizeof(char), N_tipo, F);
         s_tipo[N_tipo]='\0';
-       // printf("\ns_tipo:[%s]",s_tipo);
 
         Add_Campo_Tabela(T,s_campo,s_tipo);
     }
@@ -349,25 +345,22 @@ int Ler_Tabela_Binario(TABELA *T,FILE *F)
     int num_registos;
     fread(&num_registos, sizeof(int), 1, F);
 
-    //printf("num_registos:%d",num_registos);
-
     REGISTO *R;
 
     for(int i=0;i<num_registos;i++)
     {
         R = CriarLG();
         int qtd_dados = 0;
-        fread(&qtd_dados, sizeof(short), 1, F);
+        fread(&qtd_dados, sizeof(int), 1, F);
         for(int j=0;j<qtd_dados;j++)
         {
         int N_registo;
         fread(&N_registo, sizeof(int), 1, F);
-        //printf("\nN_registo:%d",N_registo);
         char *s_registo = (char*) malloc((sizeof(char) * N_registo) + 2);
+
         fread(s_registo, sizeof(char), N_registo, F);
         s_registo[N_registo]='\0';
         AddFimLG(R,s_registo);
-
         }
         AddFimLG(T->LRegistos,R);
     }
@@ -465,14 +458,9 @@ void  Ler_Valores_Tabela(FILE *F, TABELA *T)
 
     while (fgets(registo,1024, F) && registo[0] != '#')
     {
-        if(strlen(registo) > 2)
-        {
+        int tam = strlen(registo);
+        registo[tam-1] = '\0';
             Add_Valores_Tabela(T, registo);
-        }
-        else
-        {
-            break;
-        }
     }
 }
 

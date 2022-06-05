@@ -327,7 +327,7 @@
 	"BDadosCoupe.h"
 	"Tipos_Dados.h"
 
-1654191141 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\bdadoscoupe.c
+1654191062 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\bdadoscoupe.c
 	"BDadosCoupe.h"
 
 1654187106 c:\users\herrk\documents\programação\c\projetos\projeto_ed\bdadoscoupe.h
@@ -370,6 +370,150 @@
 	<time.h>
 
 1654191073 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\main.c
+	<stdio.h>
+	<stdlib.h>
+	"BDadosCoupe.h"
+	"Tipos_Dados.h"
+
+1654203446 source:c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed\bdadoscoupe.c
+	"BDadosCoupe.h"
+
+1654187106 c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed\bdadoscoupe.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Tipos_Dados.h"
+
+1654186173 c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed\tipos_dados.h
+	<ctype.h>
+	"ListaGenerica.h"
+	"utils.h"
+
+1653933580 c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed\listagenerica.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+
+1653485174 c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed\utils.h
+	<time.h>
+
+1654190641 source:c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed\listagenerica.c
+	"ListaGenerica.h"
+
+1654189856 source:c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed\menus.c
+	"BDadosCoupe.h"
+	"menus.h"
+
+1654189684 c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed\menus.h
+	"BDadosCoupe.h"
+
+1654204569 source:c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed\tipos_dados.c
+	"Tipos_Dados.h"
+
+1653485174 source:c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed\utils.c
+	"utils.h"
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+
+1654204340 source:c:\users\leandro dias\onedrive\ambiente de trabalho\projeto_ed\main.c
+	<stdio.h>
+	<stdlib.h>
+	"BDadosCoupe.h"
+	"Tipos_Dados.h"
+
+1654203448 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_leandro\projeto_ed\bdadoscoupe.c
+	"BDadosCoupe.h"
+
+1654187108 c:\users\herrk\documents\programação\c\projetos\projeto_ed_leandro\projeto_ed\bdadoscoupe.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Tipos_Dados.h"
+
+1654186174 c:\users\herrk\documents\programação\c\projetos\projeto_ed_leandro\projeto_ed\tipos_dados.h
+	<ctype.h>
+	"ListaGenerica.h"
+	"utils.h"
+
+1653933582 c:\users\herrk\documents\programação\c\projetos\projeto_ed_leandro\projeto_ed\listagenerica.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+
+1653485174 c:\users\herrk\documents\programação\c\projetos\projeto_ed_leandro\projeto_ed\utils.h
+	<time.h>
+
+1654190642 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_leandro\projeto_ed\listagenerica.c
+	"ListaGenerica.h"
+
+1654189858 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_leandro\projeto_ed\menus.c
+	"BDadosCoupe.h"
+	"menus.h"
+
+1654189686 c:\users\herrk\documents\programação\c\projetos\projeto_ed_leandro\projeto_ed\menus.h
+	"BDadosCoupe.h"
+
+1654204570 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_leandro\projeto_ed\tipos_dados.c
+	"Tipos_Dados.h"
+
+1653485174 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_leandro\projeto_ed\utils.c
+	"utils.h"
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+
+1654206153 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed_leandro\projeto_ed\main.c
+	<stdio.h>
+	<stdlib.h>
+	"BDadosCoupe.h"
+	"Tipos_Dados.h"
+
+1654352307 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\projeto_ed\bdadoscoupe.c
+	"BDadosCoupe.h"
+
+1654346523 c:\users\herrk\documents\programação\c\projetos\projeto_ed\projeto_ed\bdadoscoupe.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	"Tipos_Dados.h"
+
+1654186174 c:\users\herrk\documents\programação\c\projetos\projeto_ed\projeto_ed\tipos_dados.h
+	<ctype.h>
+	"ListaGenerica.h"
+	"utils.h"
+
+1653933582 c:\users\herrk\documents\programação\c\projetos\projeto_ed\projeto_ed\listagenerica.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<time.h>
+
+1653485174 c:\users\herrk\documents\programação\c\projetos\projeto_ed\projeto_ed\utils.h
+	<time.h>
+
+1654190642 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\projeto_ed\listagenerica.c
+	"ListaGenerica.h"
+
+1654353523 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\projeto_ed\menus.c
+	"BDadosCoupe.h"
+	"menus.h"
+
+1654353456 c:\users\herrk\documents\programação\c\projetos\projeto_ed\projeto_ed\menus.h
+	"BDadosCoupe.h"
+
+1654353190 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\projeto_ed\tipos_dados.c
+	"Tipos_Dados.h"
+
+1653485174 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\projeto_ed\utils.c
+	"utils.h"
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+
+1654352403 source:c:\users\herrk\documents\programação\c\projetos\projeto_ed\projeto_ed\main.c
 	<stdio.h>
 	<stdlib.h>
 	"BDadosCoupe.h"

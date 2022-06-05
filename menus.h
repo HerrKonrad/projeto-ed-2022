@@ -1,10 +1,6 @@
 #ifndef MENUS_H_INCLUDED
 #define MENUS_H_INCLUDED
-//#include "menus.c"
-#define TAMANHO_NOME 50
 #include "BDadosCoupe.h"
-
-BDadosCoupe *BD = NULL;
 
 void iniciarPrograma();
 void menuCriar_BDados();
@@ -15,7 +11,9 @@ void menuPesquisar_Tabela();
 int menuPrincipal();
 TABELA * menuSelecionarTabela();
 int menuTabelas();
-
+void menuApagarValoresTabela(TABELA *T);
+void menuProcurarValoresTabela(TABELA *T);
+void menuUpdateTabela(T);
 
 
 #endif // MENUS_H_INCLUDED
